@@ -16,4 +16,4 @@ Visual Studio Professional 2017 (It could be built with older VS versions)
 * Built on WPF
 * Uses MVVM pattern
 * Uses Selenium
-* Uses Extended WPF Toolkit for a busy indicator
+* Shows busy indicator with async web access
