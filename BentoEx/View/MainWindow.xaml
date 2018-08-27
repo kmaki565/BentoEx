@@ -1,0 +1,75 @@
+﻿<Window x:Class="BentoEx.View.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:BentoEx"
+        xmlns:v="clr-namespace:BentoEx.View"
+        xmlns:vm="clr-namespace:BentoEx.ViewModel"
+        xmlns:tool="http://schemas.xceed.com/wpf/xaml/toolkit"
+        mc:Ignorable="d"
+        Title="おべんとサッ！と" Height="300" Width="700" Icon="/BentoEx;component/Asset/egg1.ico">
+    <Window.DataContext>
+        <vm:MainViewModel />
+    </Window.DataContext>
+    <Window.Resources>
+        <Style TargetType="{x:Type DataGridRow}">
+            <Style.Resources>
+                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="Transparent" />
+                <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="Transparent" />
+                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="Black" />
+                <SolidColorBrush x:Key="{x:Static SystemColors.ControlTextBrushKey}" Color="Black" />
+            </Style.Resources>
+        </Style>
+        <v:OrderStatusToStringConverter x:Key="OrderStatusConverter"/>
+        <BooleanToVisibilityConverter x:Key="conv" />
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="3*" />
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*" />
+            <ColumnDefinition Width="2*" />
+            <ColumnDefinition Width="2*" />
+            <ColumnDefinition Width="3*" />
+            <ColumnDefinition Width="3*" />
+        </Grid.ColumnDefinitions>
+        <DataGrid Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="5" Grid.RowSpan="1" ItemsSource="{Binding Bentoes}" AutoGenerateColumns="False" CanUserAddRows="false" Background="Transparent" BorderBrush="Transparent">
+            <DataGrid.Columns>
+                <DataGridTextColumn  Header="日にち" Binding="{Binding BentoDate,StringFormat=yyyy年MM月dd日(ddd),ConverterCulture=ja-JP}"/>
+                <DataGridTextColumn  Header="メニュー" Binding="{Binding BentoMenu}"/>
+                <DataGridTextColumn  Header="価格" Binding="{Binding Price}"/>
+                <DataGridTemplateColumn Header="注文する">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <CheckBox HorizontalAlignment="Center" VerticalAlignment="Center" IsChecked="{Binding ToBeOrdered, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding CanOrder}"></CheckBox>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn  Header="注文状況" Binding="{Binding OrderState, Converter={StaticResource OrderStatusConverter}}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+        <Button Grid.Row="1" Grid.Column="0" Width="80" Height="20" Content="前週" Command="{Binding Path=LastWeek}" />
+        <Button Grid.Row="1" Grid.Column="1" Width="80" Height="20" Content="翌週" Command="{Binding Path=NextWeek}" />
+        <Button Grid.Row="1" Grid.Column="2" Width="30" Height="20" FontFamily="Wingdings 3" Content="P" Command="{Binding Path=RefreshMenu}" />
+        <Button Grid.Row="1" Grid.Column="4" Width="100" Height="20" Content="注文する！" Command="{Binding Path=SubmitOrder}" />
+        <CheckBox Grid.Row="1" Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center" Content="すべてチェック" IsChecked="{Binding IsCheckAll}" />
+        <TextBlock Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" >
+            <Hyperlink NavigateUri="https://www.obentonet.jp/member_history.html"  Name="hyperlink"
+                       ToolTip="{Binding ElementName=hyperlink, Path=NavigateUri}"
+                       RequestNavigate="hyperlink_RequestNavigate">
+                おべんとね！っとを開く 
+            </Hyperlink>
+        </TextBlock>
+        <Grid Grid.ColumnSpan="5" Grid.RowSpan="3" Visibility="{Binding IsUpdating, Converter={StaticResource conv}}">
+            <Grid.Background>
+                <SolidColorBrush Color="Black" Opacity="0.1" />
+            </Grid.Background>
+            <!--NuGet:Extended WPF Toolkit-->
+            <tool:BusyIndicator IsBusy="True" BusyContent="Loading..." />
+        </Grid>
+    </Grid>
+</Window>
