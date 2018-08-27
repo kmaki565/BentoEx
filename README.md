@@ -16,4 +16,5 @@ Visual Studio Professional 2017 (It could be built with older VS versions)
 * Built on WPF
 * Uses MVVM pattern
 * Uses Selenium
+* Saves/Restores password in registry using ConvertFrom/To-SecureString
 * Shows busy indicator with async web access
