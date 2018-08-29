@@ -5,7 +5,7 @@
 ## Goal for the program
 Quickly order daily (weekly) bento box from [おべんとね！っと](https://www.obentonet.jp/)
 ## Works on
-Should work with Windows 7 or newer 
+Should work with Windows 7 or newer  
 Tested on Windows 10 x64 (1803) with Google Chrome 68.0.3440.106 (as of 8/29/2018)
 ## Installation
 None. Just double click BentoEx.exe. 
