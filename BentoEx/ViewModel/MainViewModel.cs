@@ -55,12 +55,14 @@ namespace BentoEx.ViewModel
 
         public void OnLoaded()
         {
-            NeedBrowserInstall = !BrowserCheck.IsChromeInstalled();
+            NeedBrowserInstall = !BrowserEnvCheck.IsChromeInstalled();
             var task = Update(LoadMenu(selectedDay));
         }
 
         private async Task LoadMenu(DateTime date)
         {
+            NeedKillVpn = BrowserEnvCheck.IsVpnConnected();
+
             IsCheckAll = false;
             Bentoes.Clear();
 
@@ -184,7 +186,7 @@ namespace BentoEx.ViewModel
         }
         private bool CanSubmitOrderExecute()
         {
-            if (NeedBrowserInstall)
+            if (NeedBrowserInstall || NeedKillVpn)
                 return false;
 
             foreach (var ben in Bentoes)
@@ -235,6 +237,23 @@ namespace BentoEx.ViewModel
             set
             {
                 needBrowserInstall = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private bool needKillVpn;
+        public bool NeedKillVpn
+        {
+            get
+            {
+                if (needBrowserInstall)
+                    return false;
+
+                return needKillVpn;
+            }
+            set
+            {
+                needKillVpn = value;
                 NotifyPropertyChanged();
             }
         }

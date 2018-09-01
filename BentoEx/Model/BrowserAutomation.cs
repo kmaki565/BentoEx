@@ -4,6 +4,7 @@ using OpenQA.Selenium.Chrome;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.NetworkInformation;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -117,7 +118,7 @@ namespace BentoEx.Model
         }
     }
 
-    class BrowserCheck
+    class BrowserEnvCheck
     {
         const string keyPath = @"SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\chrome.exe";
 
@@ -126,6 +127,25 @@ namespace BentoEx.Model
             RegistryKey regkey = Registry.LocalMachine.OpenSubKey(keyPath, false);
 
             return (regkey != null);
+        }
+
+        static public bool IsVpnConnected()
+        {
+            if (NetworkInterface.GetIsNetworkAvailable())
+            {
+                NetworkInterface[] interfaces = NetworkInterface.GetAllNetworkInterfaces();
+                foreach (NetworkInterface Interface in interfaces)
+                {
+                    if (Interface.OperationalStatus == OperationalStatus.Up && (Interface.NetworkInterfaceType != NetworkInterfaceType.Loopback))
+                    {
+                        if (Interface.Description.Contains(@"Cisco AnyConnect"))
+                        {
+                            return true;
+                        }
+                    }
+                }
+            }
+            return false;
         }
     }
 }

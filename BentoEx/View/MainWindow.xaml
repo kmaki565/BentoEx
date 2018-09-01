@@ -72,6 +72,13 @@
             </Hyperlink>
             が必要です
         </TextBlock>
+        <TextBlock Grid.Row="2" Grid.Column="4" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding NeedKillVpn, Converter={StaticResource conv}}">
+            <Hyperlink NavigateUri="Run TurnOffVpn.bat"  Name="hyperlink_vpn"
+                       ToolTip="{Binding ElementName=hyperlink_vpn, Path=NavigateUri}"
+                       RequestNavigate="hyperlink_TurnOffVpn">
+                Cisco VPNを切ってください
+            </Hyperlink>
+        </TextBlock>
         <Grid Grid.ColumnSpan="5" Grid.RowSpan="3" Visibility="{Binding IsUpdating, Converter={StaticResource conv}}">
             <Grid.Background>
                 <SolidColorBrush Color="Black" Opacity="0.1" />

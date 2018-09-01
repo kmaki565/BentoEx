@@ -1,6 +1,8 @@
 ﻿using BentoEx.ViewModel;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -29,7 +31,22 @@ namespace BentoEx.View
 
         private void hyperlink_RequestNavigate(object sender, System.Windows.Navigation.RequestNavigateEventArgs e)
         {
-            System.Diagnostics.Process.Start(e.Uri.AbsoluteUri);
+            Process.Start(e.Uri.AbsoluteUri);
+            e.Handled = true;
+        }
+
+        private async void hyperlink_TurnOffVpn(object sender, System.Windows.Navigation.RequestNavigateEventArgs e)
+        {
+            string batchFile = AppDomain.CurrentDomain.BaseDirectory + @"TurnOffVpn.bat";
+            if (File.Exists(batchFile))
+            {
+                Process p = Process.Start(batchFile);
+                p.WaitForExit();
+                await Task.Delay(2000);
+
+                ((MainViewModel)DataContext).OnLoaded();
+            }
+
             e.Handled = true;
         }
     }
