@@ -13,14 +13,6 @@
         <vm:MainViewModel />
     </Window.DataContext>
     <Window.Resources>
-        <Style TargetType="{x:Type DataGridRow}">
-            <Style.Resources>
-                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="Transparent" />
-                <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="Transparent" />
-                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="Black" />
-                <SolidColorBrush x:Key="{x:Static SystemColors.ControlTextBrushKey}" Color="Black" />
-            </Style.Resources>
-        </Style>
         <v:OrderStatusToStringConverter x:Key="OrderStatusConverter"/>
         <BooleanToVisibilityConverter x:Key="conv" />
     </Window.Resources>
@@ -37,7 +29,7 @@
             <ColumnDefinition Width="3*" />
             <ColumnDefinition Width="3*" />
         </Grid.ColumnDefinitions>
-        <DataGrid Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="5" Grid.RowSpan="1" ItemsSource="{Binding Bentoes}" AutoGenerateColumns="False" CanUserAddRows="false" Background="Transparent" BorderBrush="Transparent">
+        <DataGrid Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="5" Grid.RowSpan="1" ItemsSource="{Binding Bentoes}" AutoGenerateColumns="False" CanUserAddRows="false" Background="Transparent" BorderBrush="Transparent" HorizontalGridLinesBrush="Gainsboro" VerticalGridLinesBrush="Gainsboro">
             <DataGrid.Columns>
                 <DataGridTextColumn  Header="日にち" Binding="{Binding BentoDate,StringFormat=yyyy年MM月dd日(ddd),ConverterCulture=ja-JP}"/>
                 <DataGridTextColumn  Header="メニュー" Binding="{Binding BentoMenu}"/>
