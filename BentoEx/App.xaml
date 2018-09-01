@@ -4,6 +4,6 @@
              xmlns:local="clr-namespace:BentoEx"
              StartupUri="View\MainWindow.xaml">
     <Application.Resources>
-         
+        <FontFamily x:Key="WingDings3">./Font/WINGDNG3.TTF#Wingdings 3</FontFamily>
     </Application.Resources>
 </Application>
