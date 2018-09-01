@@ -34,7 +34,7 @@ namespace BentoEx.Model
                 if (cc.Count == 0)
                 {
                     if (await Login(cc) == false)
-                        throw new Exception("Could not login.");
+                        throw new Exception("Unable to login.");
                 }
 
                 // Retrieve Monday to Friday
@@ -160,7 +160,6 @@ namespace BentoEx.Model
 
         async Task<bool> Login(CookieContainer cc)
         {
-            //TODO: Login failure
             string url = "https://www.obentonet.jp/top_login.html";
             string postContent = String.Format("request=logon&redirectTo=https%3A%2F%2Fwww.obentonet.jp%2F&CORPORATION_CD={0}&jp.co.interfactory.framework.trim.CORPORATION_CD=&LOGINID={1}&PASSWORD={2}&x=0&y=0", companyCode, userId, password);
 
