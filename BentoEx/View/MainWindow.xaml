@@ -58,11 +58,19 @@
         <Button Grid.Row="1" Grid.Column="4" Width="100" Height="20" Content="注文する！" Command="{Binding Path=SubmitOrder}" />
         <CheckBox Grid.Row="1" Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center" Content="すべてチェック" IsChecked="{Binding IsCheckAll}" />
         <TextBlock Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" >
-            <Hyperlink NavigateUri="https://www.obentonet.jp/member_history.html"  Name="hyperlink"
-                       ToolTip="{Binding ElementName=hyperlink, Path=NavigateUri}"
+            <Hyperlink NavigateUri="https://www.obentonet.jp/member_history.html"  Name="hyperlink_obento"
+                       ToolTip="{Binding ElementName=hyperlink_obento, Path=NavigateUri}"
                        RequestNavigate="hyperlink_RequestNavigate">
                 おべんとね！っとを開く 
             </Hyperlink>
+        </TextBlock>
+        <TextBlock Grid.Row="2" Grid.Column="4" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding NeedBrowserInstall, Converter={StaticResource conv}}">
+            <Hyperlink NavigateUri="https://www.google.com/intl/ja_ALL/chrome/"  Name="hyperlink_chrome"
+                       ToolTip="{Binding ElementName=hyperlink_chrome, Path=NavigateUri}"
+                       RequestNavigate="hyperlink_RequestNavigate">
+                Chrome 
+            </Hyperlink>
+            が必要です
         </TextBlock>
         <Grid Grid.ColumnSpan="5" Grid.RowSpan="3" Visibility="{Binding IsUpdating, Converter={StaticResource conv}}">
             <Grid.Background>

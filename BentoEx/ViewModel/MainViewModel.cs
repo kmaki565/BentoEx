@@ -55,6 +55,7 @@ namespace BentoEx.ViewModel
 
         public void OnLoaded()
         {
+            NeedBrowserInstall = !BrowserCheck.IsChromeInstalled();
             var task = Update(LoadMenu(selectedDay));
         }
 
@@ -183,10 +184,8 @@ namespace BentoEx.ViewModel
         }
         private bool CanSubmitOrderExecute()
         {
-            // TODO Chrome check
-            // HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\chrome.exe
-
-            // TODO Font https://stackoverflow.com/questions/6453640/how-to-include-external-font-in-wpf-application-without-installing-it
+            if (NeedBrowserInstall)
+                return false;
 
             foreach (var ben in Bentoes)
             {
@@ -225,6 +224,17 @@ namespace BentoEx.ViewModel
                     return;
 
                 isUpdating = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private bool needBrowserInstall;
+        public bool NeedBrowserInstall
+        {
+            get { return needBrowserInstall; }
+            set
+            {
+                needBrowserInstall = value;
                 NotifyPropertyChanged();
             }
         }

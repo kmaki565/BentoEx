@@ -1,4 +1,5 @@
-﻿using OpenQA.Selenium;
+﻿using Microsoft.Win32;
+using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using System;
 using System.Collections.Generic;
@@ -113,6 +114,18 @@ namespace BentoEx.Model
 
             if (!webDriver.PageSource.Contains("ご注文完了"))
                 throw new Exception("Order placement could not be confirmed");
+        }
+    }
+
+    class BrowserCheck
+    {
+        const string keyPath = @"SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\chrome.exe";
+
+        static public bool IsChromeInstalled()
+        {
+            RegistryKey regkey = Registry.LocalMachine.OpenSubKey(keyPath, false);
+
+            return (regkey != null);
         }
     }
 }
