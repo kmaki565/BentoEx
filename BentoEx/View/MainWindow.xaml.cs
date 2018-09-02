@@ -49,5 +49,13 @@ namespace BentoEx.View
 
             e.Handled = true;
         }
+
+        private void hyperlink_ShowAbout(object sender, System.Windows.Navigation.RequestNavigateEventArgs e)
+        {
+            //TODO https://archive.codeplex.com/?p=aboutbox
+            MessageBox.Show("BentoEx  built at ", "About BentoEx");
+
+            e.Handled = true;
+        }
     }
 }

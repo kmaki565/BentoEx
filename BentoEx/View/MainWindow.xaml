@@ -71,6 +71,14 @@
                 Cisco VPNを切ってください
             </Hyperlink>
         </TextBlock>
+        <!--Shoud be placed after the DataGrid-->
+        <TextBlock Grid.Row="0" Grid.Column="4" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="5">
+            <Hyperlink NavigateUri="About BentoEx"  Name="hyperlink_about"
+                       ToolTip="{Binding ElementName=hyperlink_about, Path=NavigateUri}"
+                       RequestNavigate="hyperlink_ShowAbout">
+                About
+            </Hyperlink>
+        </TextBlock>
         <Grid Grid.ColumnSpan="5" Grid.RowSpan="3" Visibility="{Binding IsUpdating, Converter={StaticResource conv}}">
             <Grid.Background>
                 <SolidColorBrush Color="Black" Opacity="0.1" />
