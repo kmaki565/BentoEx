@@ -62,6 +62,7 @@ namespace BentoEx.View
             vm.ApplicationLogo = appBi;
             vm.PublisherLogo = cBi;
             vm.HyperlinkText = "https://github.com/kmaki565/BentoEx";
+            vm.Title = "BentoEx (おべんとサッ！と)";
             vm.AdditionalNotes = "";
 
             vm.Window.Content = about;

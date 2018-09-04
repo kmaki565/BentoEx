@@ -176,7 +176,7 @@ namespace Gat.Controls
                 if (IsSemanticVersioning)
                 {
                     var tmp = _Version.Split('.');
-                    var version = string.Format("{0}.{1}.{2}", tmp[0], tmp[1], tmp[2]);
+                    var version = string.Format("{0}.{1}.{2}.{3}", tmp[0], tmp[1], tmp[2], tmp[3]);
                     return version;
                 }
 

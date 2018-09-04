@@ -8,7 +8,7 @@ using System.Windows;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("BentoEx")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("A fast order app for Obento-net")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("BentoEx")]
