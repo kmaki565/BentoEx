@@ -126,6 +126,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <Resource Include="Asset\egg1.png" />
     <Content Include="Font\WINGDNG3.TTF">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -148,6 +149,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Asset\refresh.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Gat.Controls.AboutBox\Gat.Controls.AboutBox.csproj">
+      <Project>{a15b3c04-9190-4ffc-b177-959c328333f3}</Project>
+      <Name>Gat.Controls.AboutBox</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

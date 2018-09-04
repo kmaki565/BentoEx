@@ -1,4 +1,5 @@
 ﻿using BentoEx.ViewModel;
+using Gat.Controls;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -52,8 +53,19 @@ namespace BentoEx.View
 
         private void hyperlink_ShowAbout(object sender, System.Windows.Navigation.RequestNavigateEventArgs e)
         {
-            //TODO https://archive.codeplex.com/?p=aboutbox
-            MessageBox.Show("BentoEx  built at ", "About BentoEx");
+            BitmapImage appBi = new BitmapImage(new System.Uri("pack://application:,,,/Asset/egg1.ico"));
+            BitmapImage cBi = new BitmapImage(new System.Uri("pack://application:,,,/Asset/egg1.ico"));
+
+            AboutControlView about = new AboutControlView();
+            AboutControlViewModel vm = (AboutControlViewModel)about.FindResource("ViewModel");
+            vm.IsSemanticVersioning = true;
+            vm.ApplicationLogo = appBi;
+            vm.PublisherLogo = cBi;
+            vm.HyperlinkText = "https://github.com/kmaki565/BentoEx";
+            vm.AdditionalNotes = "";
+
+            vm.Window.Content = about;
+            vm.Window.Show();
 
             e.Handled = true;
         }
