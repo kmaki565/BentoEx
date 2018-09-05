@@ -21,25 +21,11 @@ namespace BentoEx.ViewModel
         private DateTime selectedDay = DateTime.Now;  // To be adjusted to Monday
         private readonly DateTime thisMonday;
 
+        private bool IsLoggedIn = false;
+
         public MainViewModel()
         {
             Bentoes = new ObservableCollection<Bento>();
-
-            Pass = new MyPassword();
-            if (Pass.CompanyCode == null || Pass.UserId == null || Pass.Password == null)
-            {
-                var result = MessageBox.Show("You need to input login info first.", "Password not found", MessageBoxButton.OKCancel);
-
-                if (result == MessageBoxResult.OK)
-                {
-                    Process.Start("powershell.exe", @"-ExecutionPolicy Bypass -File .\SavePassword.ps1");
-                }
-                // Quit the program
-                Application.Current.Shutdown();
-                return;
-            }
-
-            Net = new NetAccess(Pass.CompanyCode, Pass.UserId, Pass.Password);
 
             // Adjust to Monday
             while (selectedDay.DayOfWeek != DayOfWeek.Monday)
@@ -53,6 +39,53 @@ namespace BentoEx.ViewModel
             thisMonday = selectedDay;
         }
 
+        private async Task InitNetAccess()
+        {
+            Pass = new MyPassword();
+            while (!Pass.GetLoginInfoFromRegistry())
+            {
+                var result = await Task.Run(() =>
+                {
+                    return MessageBox.Show("ユーザー情報を入力してください。", "Password not found", MessageBoxButton.OKCancel);
+                });
+                if (result == MessageBoxResult.Cancel)
+                {
+                    // Quit the program
+                    Application.Current.Shutdown();
+                    return;
+                }
+                Process p = Process.Start("powershell.exe", @"-ExecutionPolicy Bypass -File .\SavePassword.ps1");
+                await Task.Run(() => p.WaitForExit());
+            }
+
+            Net = new NetAccess();
+
+            while (!IsLoggedIn)
+            {
+                Net.SupplyLoginInfo(Pass.CompanyCode, Pass.UserId, Pass.Password);
+
+                if ((IsLoggedIn = await Net.Login()) == true)
+                    break;
+
+                var result = await Task.Run(() =>
+                {
+                    return MessageBox.Show("ユーザー情報が間違っているようです。入れ直しますか？", "Unable to login", MessageBoxButton.OKCancel);
+                });
+                if (result == MessageBoxResult.Cancel)
+                {
+                    // Quit the program
+                    Application.Current.Shutdown();
+                    return;
+                }
+                Process p = Process.Start("powershell.exe", @"-ExecutionPolicy Bypass -File .\ClearPassword.ps1");
+                await Task.Run(() => p.WaitForExit());
+                p = Process.Start("powershell.exe", @"-ExecutionPolicy Bypass -File .\SavePassword.ps1");
+                await Task.Run(() => p.WaitForExit());
+
+                Pass.GetLoginInfoFromRegistry();
+            }
+        }
+
         public void OnLoaded()
         {
             NeedBrowserInstall = !BrowserEnvCheck.IsChromeInstalled();
@@ -62,6 +95,11 @@ namespace BentoEx.ViewModel
         private async Task LoadMenu(DateTime date)
         {
             NeedKillVpn = BrowserEnvCheck.IsVpnConnected();
+
+            if (!IsLoggedIn)
+            {
+                await InitNetAccess();
+            }
 
             IsCheckAll = false;
             Bentoes.Clear();

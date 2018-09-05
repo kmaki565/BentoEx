@@ -19,9 +19,18 @@ namespace BentoEx.Model
 
         public MyPassword()
         {
+        }
+
+        public bool GetLoginInfoFromRegistry()
+        {
             CompanyCode = GetCompanyCode();
             UserId = GetUserId();
             Password = GetPassword();
+
+            if (CompanyCode == null || UserId == null || Password == null)
+                return false;
+            else
+                return true;
         }
 
         string GetCompanyCode()

@@ -3,4 +3,4 @@ Everything will be restored before you ran SavePassword.ps1."
 
 $RegPath = "HKCU:\Software\BentoEx"
 
-Remove-Item -Path $RegPath -Confirm
+Remove-Item -Path $RegPath 

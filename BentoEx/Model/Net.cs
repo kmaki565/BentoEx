@@ -15,13 +15,17 @@ namespace BentoEx.Model
         const string SiteUrl = "https://www.obentonet.jp/";
         CookieContainer cc;
 
-        readonly string companyCode;
-        readonly string userId;
-        readonly string password;
+        string companyCode;
+        string userId;
+        string password;
 
-        public NetAccess(string company, string id, string pw)
+        public NetAccess()
         {
             cc = new CookieContainer();
+        }
+
+        public void SupplyLoginInfo(string company, string id, string pw)
+        {
             companyCode = company;
             userId = id;
             password = pw;
@@ -33,7 +37,7 @@ namespace BentoEx.Model
             {
                 if (cc.Count == 0)
                 {
-                    if (await Login(cc) == false)
+                    if (await Login() == false)
                         throw new Exception("Unable to login.");
                 }
 
@@ -158,7 +162,7 @@ namespace BentoEx.Model
             return result;
         }
 
-        async Task<bool> Login(CookieContainer cc)
+        public async Task<bool> Login()
         {
             string url = "https://www.obentonet.jp/top_login.html";
             string postContent = String.Format("request=logon&redirectTo=https%3A%2F%2Fwww.obentonet.jp%2F&CORPORATION_CD={0}&jp.co.interfactory.framework.trim.CORPORATION_CD=&LOGINID={1}&PASSWORD={2}&x=0&y=0", companyCode, userId, password);

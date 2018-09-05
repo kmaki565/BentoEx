@@ -16,10 +16,10 @@ try
     New-ItemProperty -Path $RegPath -Name UserId -PropertyType String -Value $Cred.UserName -Force
     New-ItemProperty -Path $RegPath -Name Password -PropertyType String -Value $SecureStringAsPlainText_pw -Force
     New-ItemProperty -Path $RegPath -Name Date -PropertyType String -Value $(Get-Date) -Force | Out-Null
-    Write-Host "User id and password have been saved in $RegPath. Please run the exe again."
+    Write-Host "User id and password have been saved in $RegPath."
 }
 catch 
 {
     Write-Host "Cannot save user id/password to registry"
+	Read-Host "Press Enter to exit"
 }
-Read-Host "Press Enter to exit"
