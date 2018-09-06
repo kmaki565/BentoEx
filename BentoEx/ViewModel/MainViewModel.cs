@@ -44,18 +44,15 @@ namespace BentoEx.ViewModel
             Pass = new MyPassword();
             while (!Pass.GetLoginInfoFromRegistry())
             {
-                var result = await Task.Run(() =>
-                {
-                    return MessageBox.Show("ユーザー情報を入力してください。", "Password not found", MessageBoxButton.OKCancel);
-                });
+                var result = await Task.Run(() => 
+                MessageBox.Show("ユーザー情報を入力してください。", "Password not found", MessageBoxButton.OKCancel));
                 if (result == MessageBoxResult.Cancel)
                 {
                     // Quit the program
                     Application.Current.Shutdown();
                     return;
                 }
-                Process p = Process.Start("powershell.exe", @"-ExecutionPolicy Bypass -WindowStyle Hidden -File .\SavePassword.ps1");
-                await Task.Run(() => p.WaitForExit());
+                await RunProcessNoWindow("powershell.exe", @"-ExecutionPolicy Bypass -File .\SavePassword.ps1");
             }
 
             Net = new NetAccess();
@@ -68,22 +65,27 @@ namespace BentoEx.ViewModel
                     break;
 
                 var result = await Task.Run(() =>
-                {
-                    return MessageBox.Show("ユーザー情報が間違っているようです。入れ直しますか？", "Unable to login", MessageBoxButton.OKCancel);
-                });
+                MessageBox.Show("ユーザー情報が間違っているようです。入れ直しますか？", "Unable to login", MessageBoxButton.OKCancel));
                 if (result == MessageBoxResult.Cancel)
                 {
                     // Quit the program
                     Application.Current.Shutdown();
                     return;
                 }
-                Process p = Process.Start("powershell.exe", @"-ExecutionPolicy Bypass -WindowStyle Hidden -File .\ClearPassword.ps1");
-                await Task.Run(() => p.WaitForExit());
-                p = Process.Start("powershell.exe", @"-ExecutionPolicy Bypass -WindowStyle Hidden -File .\SavePassword.ps1");
-                await Task.Run(() => p.WaitForExit());
+                await RunProcessNoWindow("powershell.exe", @"-ExecutionPolicy Bypass -File .\ClearPassword.ps1");
+                await RunProcessNoWindow("powershell.exe", @"-ExecutionPolicy Bypass -File .\SavePassword.ps1");
 
                 Pass.GetLoginInfoFromRegistry();
             }
+        }
+        private async Task RunProcessNoWindow(string cmd, string arg)
+        {
+            Process p = new Process();
+            p.StartInfo.FileName = cmd;
+            p.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
+            p.StartInfo.Arguments = arg;
+            p.Start();
+            await Task.Run(() => p.WaitForExit());
         }
 
         public void OnLoaded()

@@ -42,7 +42,7 @@ namespace BentoEx.View
             if (File.Exists(batchFile))
             {
                 Process p = Process.Start(batchFile);
-                p.WaitForExit();
+                await Task.Run(() => p.WaitForExit());
                 await Task.Delay(2000);
 
                 ((MainViewModel)DataContext).OnLoaded();
