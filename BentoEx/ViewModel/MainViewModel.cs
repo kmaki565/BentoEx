@@ -54,7 +54,7 @@ namespace BentoEx.ViewModel
                     Application.Current.Shutdown();
                     return;
                 }
-                Process p = Process.Start("powershell.exe", @"-ExecutionPolicy Bypass -File .\SavePassword.ps1");
+                Process p = Process.Start("powershell.exe", @"-ExecutionPolicy Bypass -WindowStyle Hidden -File .\SavePassword.ps1");
                 await Task.Run(() => p.WaitForExit());
             }
 
@@ -77,9 +77,9 @@ namespace BentoEx.ViewModel
                     Application.Current.Shutdown();
                     return;
                 }
-                Process p = Process.Start("powershell.exe", @"-ExecutionPolicy Bypass -File .\ClearPassword.ps1");
+                Process p = Process.Start("powershell.exe", @"-ExecutionPolicy Bypass -WindowStyle Hidden -File .\ClearPassword.ps1");
                 await Task.Run(() => p.WaitForExit());
-                p = Process.Start("powershell.exe", @"-ExecutionPolicy Bypass -File .\SavePassword.ps1");
+                p = Process.Start("powershell.exe", @"-ExecutionPolicy Bypass -WindowStyle Hidden -File .\SavePassword.ps1");
                 await Task.Run(() => p.WaitForExit());
 
                 Pass.GetLoginInfoFromRegistry();
