@@ -3,6 +3,7 @@ using BentoEx.Model;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Configuration;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -22,6 +23,7 @@ namespace BentoEx.ViewModel
         private readonly DateTime thisMonday;
 
         private bool IsLoggedIn = false;
+        private bool requireVpnOff = false;
 
         public MainViewModel()
         {
@@ -37,6 +39,13 @@ namespace BentoEx.ViewModel
                     selectedDay = selectedDay.AddDays(-1);
             }
             thisMonday = selectedDay;
+
+            try
+            {
+                requireVpnOff = Convert.ToBoolean(ConfigurationManager.AppSettings["RequiresVpnOff"]);
+            }
+            catch (FormatException)
+            { }
         }
 
         private async Task InitNetAccess()
@@ -96,7 +105,7 @@ namespace BentoEx.ViewModel
 
         private async Task LoadMenu(DateTime date)
         {
-            NeedKillVpn = BrowserEnvCheck.IsVpnConnected();
+            NeedKillVpn = requireVpnOff && BrowserEnvCheck.IsVpnConnected();
 
             if (!IsLoggedIn)
             {
