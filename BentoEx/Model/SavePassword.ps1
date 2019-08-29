@@ -1,8 +1,8 @@
-Write-Host "This script saves your Obento-Net user ID and password into HKCU.
+ï»¿Write-Host "This script saves your Obento-Net user ID and password into HKCU.
 Rest assured, password will be encrypted and only you ($env:USERNAME) on the same computer can decrypt!"
 $RegPath = "HKCU:\Software\BentoEx"
 
-$Cred = $host.ui.PromptForCredential("‚¨‚×‚ñ‚ÆƒTƒbI‚Æ", "‚¨‚×‚ñ‚Æ‚ËI‚Á‚Æ‚Ìƒ†[ƒU[ID‚ÆƒpƒXƒ[ƒh‚ğ“ü—Í‚µ‚Ä‚­‚¾‚³‚¢B", "$env:USERNAME", "")
+$Cred = $host.ui.PromptForCredential("ãŠã¹ã‚“ã¨ã‚µãƒƒï¼ã¨", "ãŠã¹ã‚“ã¨ã­ï¼ã£ã¨ã®ãƒ¦ãƒ¼ã‚¶ãƒ¼IDã¨ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰ã‚’å…¥åŠ›ã—ã¦ãã ã•ã„ã€‚", "$env:USERNAME", "")
 if ($Cred -eq $null) { exit; }
 
 $SecureStringAsPlainText_pw = $Cred.Password | ConvertFrom-SecureString 
