@@ -25,3 +25,8 @@ jobs:
     - run: nuget restore BentoEx.sln
     - uses: warrenbuckley/Setup-MSBuild@v1
     - run: msbuild BentoEx.sln '/p:Configuration=Release;Platform="Any CPU"'
+    # Save artifacts
+    - uses: actions/upload-artifact@v1
+      with:
+        name: artifacts
+        path: bin\Release
