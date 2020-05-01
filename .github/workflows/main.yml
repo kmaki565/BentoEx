@@ -21,9 +21,7 @@ jobs:
     steps:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
-
-    - name: Setup MSBuild.exe
-      uses: warrenbuckley/Setup-MSBuild@v1
-      
-    - name: MSBuild
-      run: msbuild BentoEx.sln '/p:Configuration=Release;Platform="Any CPU"'
+    - uses: warrenbuckley/Setup-Nuget@v1
+    - run: nuget restore $Env:GITHUB_WORKSPACE\BentoEx\BentoEx.csproj
+    - uses: warrenbuckley/Setup-MSBuild@v1
+    - run: msbuild $Env:GITHUB_WORKSPACE\BentoEx.sln '/p:Configuration=Release;Platform="Any CPU"'
