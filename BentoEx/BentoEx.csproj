@@ -112,9 +112,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <Content Include="Font\WINGDNG3.TTF">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    <Resource Include="Font\WINGDNG3.TTF" />
     <None Include="Model\ClearPassword.ps1" />
     <None Include="Model\SavePassword.ps1" />
     <None Include="packages.config">
@@ -133,9 +131,6 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Asset\egg1.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Asset\refresh.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Gat.Controls.AboutBox\Gat.Controls.AboutBox.csproj">
