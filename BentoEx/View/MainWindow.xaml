@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:BentoEx"
         xmlns:v="clr-namespace:BentoEx.View"
         xmlns:vm="clr-namespace:BentoEx.ViewModel"
-        xmlns:tool="http://schemas.xceed.com/wpf/xaml/toolkit"
+        xmlns:fa="http://schemas.fontawesome.io/icons/"
         mc:Ignorable="d"
         Title="おべんとサッ！と" Height="300" Width="700" Icon="/BentoEx;component/Asset/egg1.ico">
     <Window.DataContext>
@@ -83,8 +83,7 @@
             <Grid.Background>
                 <SolidColorBrush Color="Black" Opacity="0.1" />
             </Grid.Background>
-            <!--NuGet:Extended WPF Toolkit-->
-            <tool:BusyIndicator IsBusy="{Binding IsUpdating}" IsEnabled="{Binding IsUpdating}" BusyContent="Loading..." />
+            <fa:ImageAwesome Icon="Spinner" IsEnabled="{Binding IsUpdating}" Spin="{Binding IsUpdating}" Height="48" Width="48" />
         </Grid>
     </Grid>
 </Window>
