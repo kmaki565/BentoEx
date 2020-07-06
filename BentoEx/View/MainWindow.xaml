@@ -84,7 +84,7 @@
                 <SolidColorBrush Color="Black" Opacity="0.1" />
             </Grid.Background>
             <!--NuGet:Extended WPF Toolkit-->
-            <tool:BusyIndicator IsBusy="True" BusyContent="Loading..." />
+            <tool:BusyIndicator IsBusy="{Binding IsUpdating}" IsEnabled="{Binding IsUpdating}" BusyContent="Loading..." />
         </Grid>
     </Grid>
 </Window>

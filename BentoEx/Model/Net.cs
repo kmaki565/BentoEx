@@ -42,7 +42,7 @@ namespace BentoEx.Model
                 }
 
                 // Retrieve Monday to Friday
-                string urlString = String.Format("item_list.html?from={0}&to={1}&deliveryDate=weeks", startDate.ToString("yyyy/MM/dd"), startDate.AddDays(4).ToString("yyyy/MM/dd"));
+                string urlString = String.Format("item_list.html?from={0}&to={1}", startDate.ToString("yyyy/MM/dd"), startDate.AddDays(4).ToString("yyyy/MM/dd"));
                 urlString = urlString.Replace("/", "%2F"); // URL encoding
                 urlString = SiteUrl + urlString;
 
@@ -66,6 +66,7 @@ namespace BentoEx.Model
                 htmlDoc.DocumentNode
                 .SelectNodes(@"//div[@class=""box""]")
                 .Where(a => a.InnerHtml.Contains(@"class=""info"""))
+                .Where(a => !a.InnerHtml.Contains("ライス大盛"))
                 .Where(a => !a.InnerHtml.Contains("おかずのみ"))
                 .Select(a => new
                 {

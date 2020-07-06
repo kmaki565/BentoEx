@@ -64,7 +64,7 @@ namespace Gat.Controls
 			Window.Deactivated += Window_Deactivated;
 
 			Assembly assembly = Assembly.GetEntryAssembly();
-			Version = assembly.GetName().Version.ToString();
+			Version = assembly.GetName().Version.ToString() + "  (For So-an)";
 			Title = assembly.GetName().Name;
 			
 #if NET35 || NET40

@@ -32,7 +32,7 @@ namespace BentoEx.ViewModel
             // Adjust to Monday
             while (selectedDay.DayOfWeek != DayOfWeek.Monday)
             {
-                if ((selectedDay.DayOfWeek == DayOfWeek.Friday && selectedDay.TimeOfDay > new TimeSpan(9, 45, 0))
+                if ((selectedDay.DayOfWeek == DayOfWeek.Friday && selectedDay.TimeOfDay > new TimeSpan(8, 45, 0))
                     || selectedDay.DayOfWeek == DayOfWeek.Saturday || selectedDay.DayOfWeek == DayOfWeek.Sunday)
                     selectedDay = selectedDay.AddDays(1);
                 else
