@@ -222,6 +222,9 @@ namespace BentoEx.ViewModel
         }
         private async void SubmitOrderExecute()
         {
+            if (CancelIfDuplicateOrder())
+                return;
+
             var selenium = new BrowserAutomation(Pass.CompanyCode, Pass.UserId, Pass.Password);
 
             await Update(selenium.OrderBentoes(Bentoes.Where(b => b.ToBeOrdered)));
@@ -238,6 +241,22 @@ namespace BentoEx.ViewModel
                 if (ben.ToBeOrdered)
                     return true;
             }
+            return false;
+        }
+        private bool CancelIfDuplicateOrder()
+        {
+            foreach (var dt in Bentoes.Select(b => b.BentoDate.Date).Distinct())
+            {
+                if (!Bentoes.Any(b => b.BentoDate.Date == dt && b.OrderState == Bento.OrderStatus.blank))
+                    continue;
+
+                if (Bentoes.Count(b => b.BentoDate.Date == dt && (b.OrderState == Bento.OrderStatus.ordered || b.ToBeOrdered)) > 1)
+                {
+                    var feedback = MessageBox.Show("2つ以上のお弁当が必要ですか？", "確認", MessageBoxButton.YesNo);
+                    return (feedback == MessageBoxResult.No);
+                }
+            }
+            
             return false;
         }
 
