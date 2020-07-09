@@ -112,7 +112,9 @@ namespace BentoEx.ViewModel
                 await InitNetAccess();
             }
 
-            IsCheckAll = false;
+            IsCheckAll_normal = false;
+            IsCheckAll_ohmori = false;
+            IsCheckAll_okazu = false;
             Bentoes.Clear();
 
             var bentos = await Net.GetBentoList(date);
@@ -246,18 +248,44 @@ namespace BentoEx.ViewModel
             return false;
         }
 
-        private bool isCheckAll;
-        public bool IsCheckAll
+        private bool isCheckAll_normal;
+        public bool IsCheckAll_normal
         {
-            get { return isCheckAll; }
+            get { return isCheckAll_normal; }
             set
             {
-                isCheckAll = value;
-                foreach (var ben in Bentoes)
-                {
-                    if (ben.CanOrder)
-                        ben.ToBeOrdered = isCheckAll;
-                }
+                isCheckAll_normal = value;
+                foreach (var b in Bentoes.Where(b => b.Type == Bento.BentoType.normal && b.CanOrder))
+                    b.ToBeOrdered = value;
+                                
+                NotifyPropertyChanged();
+            }
+        }
+
+        private bool isCheckAll_ohmori;
+        public bool IsCheckAll_ohmori
+        {
+            get { return isCheckAll_ohmori; }
+            set
+            {
+                isCheckAll_ohmori = value;
+                foreach (var b in Bentoes.Where(b => b.Type == Bento.BentoType.ohmori && b.CanOrder))
+                    b.ToBeOrdered = value;
+
+                NotifyPropertyChanged();
+            }
+        }
+
+        private bool isCheckAll_okazu;
+        public bool IsCheckAll_okazu
+        {
+            get { return isCheckAll_okazu; }
+            set
+            {
+                isCheckAll_okazu = value;
+                foreach (var b in Bentoes.Where(b => b.Type == Bento.BentoType.okazu && b.CanOrder))
+                    b.ToBeOrdered = value;
+
                 NotifyPropertyChanged();
             }
         }

@@ -60,7 +60,11 @@
         <Button Grid.Row="1" Grid.Column="1" Width="80" Height="20" Content="翌週" Command="{Binding Path=NextWeek}" />
         <Button Grid.Row="1" Grid.Column="2" Width="30" Height="20" FontFamily="{StaticResource WingDings3}" Content="P" Command="{Binding Path=RefreshMenu}" />
         <Button Grid.Row="1" Grid.Column="4" Width="100" Height="20" Content="注文する！" Command="{Binding Path=SubmitOrder}" />
-        <CheckBox Grid.Row="1" Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center" Content="すべてチェック" IsChecked="{Binding IsCheckAll}" />
+        <StackPanel Grid.Row="1" Grid.Column="3" Grid.RowSpan="2" Margin="10,0,0,0">
+            <CheckBox VerticalAlignment="Center" Content="普通盛りにチェック" IsChecked="{Binding IsCheckAll_normal}" />
+            <CheckBox VerticalAlignment="Center" Content="大盛りにチェック" IsChecked="{Binding IsCheckAll_ohmori}" />
+            <CheckBox VerticalAlignment="Center" Content="おかずのみにチェック" IsChecked="{Binding IsCheckAll_okazu}" />
+        </StackPanel>
         <TextBlock Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" >
             <Hyperlink NavigateUri="https://www.obentonet.jp/member_history.html"  Name="hyperlink_obento"
                        ToolTip="{Binding ElementName=hyperlink_obento, Path=NavigateUri}"
