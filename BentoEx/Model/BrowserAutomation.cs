@@ -29,16 +29,16 @@ namespace BentoEx.Model
             password = pw;
         }
 
-        public async Task OrderBentoes(List<DateTime> dates)
+        public async Task OrderBentoes(IEnumerable<Bento> bentoes)
         {
             await Task.Run(() =>
             {
                 LoginObento();
-                foreach (var dt in dates)
+                foreach (var bt in bentoes)
                 {
-                    GetBentoForTheDay(dt);
-                    AddBentoToCart();
-                    CheckInput();
+                    GetBentoForTheDay(bt);
+                    AddBentoToCart(bt);
+                    CheckInput(bt);
                     FixOrder();
                     Confirm();
                 }
@@ -60,25 +60,28 @@ namespace BentoEx.Model
             passwdBox.SendKeys(Keys.Enter);
             //loginBtn.Click();
         }
-        void GetBentoForTheDay(DateTime dt)
+        void GetBentoForTheDay(Bento bt)
         {
-            string dateString = dt.ToString("yyyy/MM/dd");
+            string dateString = bt.BentoDate.ToString("yyyy/MM/dd");
             dateString = dateString.Replace("/", "%2F"); // URL encoding
             webDriver.Url = String.Format("https://www.obentonet.jp/item_list.html?from={0}&to={0}", dateString);
         }
         /// <summary>
-        /// WARNING! This method always adds the top item to the shopping cart assuming the first one is a full-bento.
+        /// TODO: FIXME! This method always assumes the 3 types are lined up in a fixed order.
         /// </summary>
-        void AddBentoToCart()
+        void AddBentoToCart(Bento bento)
         {
-            IWebElement cartBtn = webDriver.FindElement(By.XPath("//img[@alt='買い物かごに入れる']"));
+            var buttons = webDriver.FindElements(By.XPath("//img[@alt='買い物かごに入れる']"));
+            IWebElement cartBtn = bento.Type == Bento.BentoType.normal ? buttons.First() :
+                bento.Type == Bento.BentoType.ohmori ? buttons.ElementAt(1) : buttons.ElementAt(2);
+                
             if (cartBtn.GetAttribute("src").Contains("button_cart_ordered"))
             {
                 throw new Exception("The specified item seems to be ordered already.");
             }
             cartBtn.Click();
         }
-        void CheckInput()
+        void CheckInput(Bento bento)
         {
             int i = 0;
             while (webDriver.Url != "https://www.obentonet.jp/cart_seisan.html")
@@ -90,8 +93,8 @@ namespace BentoEx.Model
                     throw new Exception("Timeout occurred for cart_seisan");
             }
 
-            if (webDriver.PageSource.Contains("おかずのみ"))
-                throw new Exception("おかずのみが注文されようとしています");
+            if (!webDriver.PageSource.Contains(bento.Price))
+                throw new Exception("Bento type might be mismatched.");
 
             IWebElement btn = webDriver.FindElement(By.XPath("//input[@alt='入力内容を確認する']"));
             btn.Click();

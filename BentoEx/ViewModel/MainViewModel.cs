@@ -223,15 +223,8 @@ namespace BentoEx.ViewModel
         private async void SubmitOrderExecute()
         {
             var selenium = new BrowserAutomation(Pass.CompanyCode, Pass.UserId, Pass.Password);
-            var dates= new List<DateTime>();
 
-            foreach (var bt in Bentoes)
-            {
-                if (bt.ToBeOrdered)
-                    dates.Add(bt.BentoDate);
-            }
-
-            await Update(selenium.OrderBentoes(dates));
+            await Update(selenium.OrderBentoes(Bentoes.Where(b => b.ToBeOrdered)));
 
             await Update(LoadMenu(selectedDay));
         }
