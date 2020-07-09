@@ -8,7 +8,7 @@
         xmlns:vm="clr-namespace:BentoEx.ViewModel"
         xmlns:fa="http://schemas.fontawesome.io/icons/"
         mc:Ignorable="d"
-        Title="おべんとサッ！と" Height="300" Width="700" Icon="/BentoEx;component/Asset/egg1.ico">
+        Title="おべんとサッ！と  (颯庵 ver.)" Height="450" Width="700" Icon="/BentoEx;component/Asset/egg1.ico">
     <Window.DataContext>
         <vm:MainViewModel />
     </Window.DataContext>
@@ -18,7 +18,7 @@
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="3*" />
+            <RowDefinition Height="8*" />
             <RowDefinition Height="1*"/>
             <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
@@ -32,7 +32,7 @@
         <DataGrid Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="5" Grid.RowSpan="1" ItemsSource="{Binding Bentoes}" AutoGenerateColumns="False" CanUserAddRows="false" Background="Transparent" BorderBrush="Transparent" HorizontalGridLinesBrush="LightSteelBlue" VerticalGridLinesBrush="LightSteelBlue">
             <DataGrid.Columns>
                 <DataGridTextColumn  Header="日にち" Binding="{Binding BentoDate,StringFormat=yyyy年MM月dd日(ddd),ConverterCulture=ja-JP}"/>
-                <DataGridTextColumn  Header="メニュー" Binding="{Binding BentoMenu}"/>
+                <DataGridTextColumn  Header="メニュー" Binding="{Binding BentoMenuStr}"/>
                 <DataGridTextColumn  Header="価格" Binding="{Binding Price}"/>
                 <DataGridTemplateColumn Header="注文する">
                     <DataGridTemplateColumn.CellTemplate>
@@ -43,6 +43,18 @@
                 </DataGridTemplateColumn>
                 <DataGridTextColumn  Header="注文状況" Binding="{Binding OrderState, Converter={StaticResource OrderStatusConverter}}"/>
             </DataGrid.Columns>
+            <DataGrid.RowStyle>
+                <Style TargetType="DataGridRow">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Type}" Value="ohmori">
+                            <Setter Property="Background" Value="LightYellow"></Setter>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Type}" Value="okazu">
+                            <Setter Property="Background" Value="LightCyan"></Setter>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </DataGrid.RowStyle>
         </DataGrid>
         <Button Grid.Row="1" Grid.Column="0" Width="80" Height="20" Content="前週" Command="{Binding Path=LastWeek}" />
         <Button Grid.Row="1" Grid.Column="1" Width="80" Height="20" Content="翌週" Command="{Binding Path=NextWeek}" />

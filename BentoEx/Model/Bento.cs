@@ -11,8 +11,23 @@ namespace BentoEx.Model
     {
         // These should be properties
         public DateTime BentoDate { get; set; }
+        public string BentoMenuStr
+        {
+            get
+            {
+                return BentoMenu + GetBentoTypeStr(Type);
+            }
+        }
         public string BentoMenu { get; set; }
         public string Price { get; set; }
+        
+        public enum BentoType
+        {
+            normal,
+            ohmori,
+            okazu
+        }
+        public BentoType Type { get; set; }
 
         private bool toBeOrdered;
         public bool ToBeOrdered
@@ -55,6 +70,16 @@ namespace BentoEx.Model
                 canOrder = value;
                 NotifyPropertyChanged();
             }
+        }
+
+        private string GetBentoTypeStr(BentoType type)
+        {
+            if (type == BentoType.ohmori)
+                return " (ライス大盛)";
+            else if (type == BentoType.okazu)
+                return " (おかずのみ)";
+            else
+                return "";
         }
     }
 }

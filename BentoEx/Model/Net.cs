@@ -66,8 +66,6 @@ namespace BentoEx.Model
                 htmlDoc.DocumentNode
                 .SelectNodes(@"//div[@class=""box""]")
                 .Where(a => a.InnerHtml.Contains(@"class=""info"""))
-                .Where(a => !a.InnerHtml.Contains("ライス大盛"))
-                .Where(a => !a.InnerHtml.Contains("おかずのみ"))
                 .Select(a => new
                 {
                     html = a.InnerHtml
@@ -90,6 +88,9 @@ namespace BentoEx.Model
                 {
                     BentoDate = DateTime.Parse(date),
                     BentoMenu = menu,
+                    Type = b.html.Contains("ライス大盛") ? Bento.BentoType.ohmori :
+                    b.html.Contains("おかずのみ") ? Bento.BentoType.okazu :
+                    Bento.BentoType.normal,
                     Price = price,
                     ToBeOrdered = false,
                     OrderState = b.html.Contains(@"class=""ordered""") ? Bento.OrderStatus.ordered :
