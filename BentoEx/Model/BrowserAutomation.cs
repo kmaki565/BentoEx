@@ -67,13 +67,15 @@ namespace BentoEx.Model
             webDriver.Url = String.Format("https://www.obentonet.jp/item_list.html?from={0}&to={0}", dateString);
         }
         /// <summary>
-        /// TODO: FIXME! This method always assumes the 3 types are lined up in a fixed order.
+        /// Finds and clicks the order button. This assumes each order option has a different price.
         /// </summary>
         void AddBentoToCart(Bento bento)
         {
-            var buttons = webDriver.FindElements(By.XPath("//img[@alt='買い物かごに入れる']"));
-            IWebElement cartBtn = bento.Type == Bento.BentoType.normal ? buttons.First() :
-                bento.Type == Bento.BentoType.ohmori ? buttons.ElementAt(1) : buttons.ElementAt(2);
+            var buttons = webDriver.FindElements(By.XPath($@"//input[@class='item_price' and @value='{bento.Price}']/following-sibling::img[@alt='買い物かごに入れる']"));
+            if (buttons.Count() != 1)
+                throw new Exception("Cannot determine which button to submit the order.");
+
+            IWebElement cartBtn = buttons.First();
                 
             if (cartBtn.GetAttribute("src").Contains("button_cart_ordered"))
             {
@@ -93,7 +95,7 @@ namespace BentoEx.Model
                     throw new Exception("Timeout occurred for cart_seisan");
             }
 
-            if (!webDriver.PageSource.Contains(bento.Price))
+            if (!webDriver.PageSource.Contains(bento.PriceStr))
                 throw new Exception("Bento type might be mismatched.");
 
             IWebElement btn = webDriver.FindElement(By.XPath("//input[@alt='入力内容を確認する']"));

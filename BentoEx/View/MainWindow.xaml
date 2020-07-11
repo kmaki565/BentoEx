@@ -33,7 +33,7 @@
             <DataGrid.Columns>
                 <DataGridTextColumn  Header="日にち" Binding="{Binding BentoDate,StringFormat=yyyy年MM月dd日(ddd),ConverterCulture=ja-JP}"/>
                 <DataGridTextColumn  Header="メニュー" Binding="{Binding BentoMenuStr}"/>
-                <DataGridTextColumn  Header="価格" Binding="{Binding Price}"/>
+                <DataGridTextColumn  Header="価格" Binding="{Binding PriceStr}"/>
                 <DataGridTemplateColumn Header="注文する">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>

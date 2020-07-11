@@ -81,8 +81,9 @@ namespace BentoEx.Model
                 match = Regex.Match(b.html, @"alt=""(.+)""");
                 var menu = match.Groups[1].ToString();
 
-                match = Regex.Match(b.html, @"定価.*(\d{3}円)");
-                var price = match.Groups[1].ToString();
+                match = Regex.Match(b.html, @"定価.*(\d{3})円");
+                int price = 0;
+                int.TryParse(match.Groups[1].ToString(), out price);
 
                 bentoes.Add(new Bento()
                 {

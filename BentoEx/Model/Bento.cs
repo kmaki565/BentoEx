@@ -19,7 +19,18 @@ namespace BentoEx.Model
             }
         }
         public string BentoMenu { get; set; }
-        public string Price { get; set; }
+
+        private int price;
+        public int Price
+        {
+            get { return price; }
+            set
+            {
+                price = value;
+                PriceStr = $"{price}円";
+            }
+        }
+        public string PriceStr { get; private set; }
         
         public enum BentoType
         {
