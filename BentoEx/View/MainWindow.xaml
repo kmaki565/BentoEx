@@ -65,6 +65,10 @@
                     </Style.Triggers>
                 </Style>
             </DataGrid.RowStyle>
+            <DataGrid.Resources>
+                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="Transparent"/>
+                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey }" Color="Black"/>
+            </DataGrid.Resources>
         </DataGrid>
         <Button Grid.Row="1" Grid.Column="0" Width="80" Height="20" Content="前週" Command="{Binding Path=LastWeek}" />
         <Button Grid.Row="1" Grid.Column="1" Width="80" Height="20" Content="翌週" Command="{Binding Path=NextWeek}" />
