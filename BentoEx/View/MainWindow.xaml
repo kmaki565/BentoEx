@@ -29,7 +29,8 @@
             <ColumnDefinition Width="3*" />
             <ColumnDefinition Width="3*" />
         </Grid.ColumnDefinitions>
-        <DataGrid Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="5" Grid.RowSpan="1" ItemsSource="{Binding Bentoes}" AutoGenerateColumns="False" CanUserAddRows="false" Background="Transparent" BorderBrush="Transparent" HorizontalGridLinesBrush="LightSteelBlue" VerticalGridLinesBrush="LightSteelBlue">
+        <DataGrid Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="5" Grid.RowSpan="1" ItemsSource="{Binding Bentoes}" AutoGenerateColumns="False" CanUserAddRows="false" IsReadOnly="True"
+                  Background="Transparent" BorderBrush="Transparent" HorizontalGridLinesBrush="LightSteelBlue" VerticalGridLinesBrush="LightSteelBlue">
             <DataGrid.Columns>
                 <DataGridTextColumn  Header="日にち" Binding="{Binding BentoDate,StringFormat=yyyy年MM月dd日(ddd),ConverterCulture=ja-JP}"/>
                 <DataGridTextColumn  Header="メニュー" Binding="{Binding BentoMenuStr}"/>
