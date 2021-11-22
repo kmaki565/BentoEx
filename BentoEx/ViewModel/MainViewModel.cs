@@ -99,13 +99,13 @@ namespace BentoEx.ViewModel
 
         public void OnLoaded()
         {
-            NeedBrowserInstall = !BrowserEnvCheck.IsChromeInstalled();
-            var task = Update(LoadMenu(selectedDay));
+            NeedBrowserInstall = !EnvCheck.IsMsEdgeInstalled() && !EnvCheck.IsChromeInstalled();
+            _ = Update(LoadMenu(selectedDay));
         }
 
         private async Task LoadMenu(DateTime date)
         {
-            NeedKillVpn = requireVpnOff && BrowserEnvCheck.IsVpnConnected();
+            NeedKillVpn = requireVpnOff && EnvCheck.IsVpnConnected();
 
             if (!IsLoggedIn)
             {
@@ -225,11 +225,17 @@ namespace BentoEx.ViewModel
             if (CancelIfDuplicateOrder())
                 return;
 
-            var selenium = new BrowserAutomation(Pass.CompanyCode, Pass.UserId, Pass.Password);
-
-            await Update(selenium.OrderBentoes(Bentoes.Where(b => b.ToBeOrdered)));
-
-            await Update(LoadMenu(selectedDay));
+            try
+            {
+                var selenium = new BrowserAutomation(Pass.CompanyCode, Pass.UserId, Pass.Password);
+                await Update(selenium.OrderBentoes(Bentoes.Where(b => b.ToBeOrdered)));
+                await Update(LoadMenu(selectedDay));
+            }
+            catch (InvalidOperationException ex)
+            {
+                MessageBox.Show(ex.Message, "BentoEx - Browser automation failed");
+                return;
+            }
         }
         private bool CanSubmitOrderExecute()
         {

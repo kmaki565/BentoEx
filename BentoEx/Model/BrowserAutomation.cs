@@ -1,13 +1,18 @@
 ﻿using Microsoft.Win32;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Edge;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net.NetworkInformation;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using WebDriverManager;
+using WebDriverManager.DriverConfigs.Impl;
+using WebDriverManager.Helpers;
 
 namespace BentoEx.Model
 {
@@ -19,10 +24,30 @@ namespace BentoEx.Model
         readonly string userId;
         readonly string password;
 
+        /// <summary>
+        /// Initializes browser automation. 
+        /// Throws exception if WebDriver failed to initialize (e.g., version mismatched to the installed browser).
+        /// </summary>
+        /// <param name="company"></param>
+        /// <param name="id"></param>
+        /// <param name="pw"></param>
         public BrowserAutomation(string company, string id, string pw)
         {
-            // I use Chrome
-            webDriver = new ChromeDriver();
+            // Use Chromium Edge, or Chrome.
+            if (EnvCheck.IsMsEdgeInstalled())
+            {
+                string webDriverPath = new DriverManager().SetUpDriver(new EdgeConfig(), VersionResolveStrategy.MatchingBrowser);
+                webDriver = new EdgeDriver(Path.GetDirectoryName(webDriverPath));
+            }
+            else if (EnvCheck.IsChromeInstalled())
+            {
+                string webDriverPath = new DriverManager().SetUpDriver(new ChromeConfig(), VersionResolveStrategy.MatchingBrowser);
+                webDriver = new ChromeDriver(Path.GetDirectoryName(webDriverPath));
+            }
+            else
+            {
+                throw new InvalidOperationException("Chromium Edge or Chrome browser is required for UI automation.");
+            }
 
             companyCode = company;
             userId = id;
@@ -123,18 +148,23 @@ namespace BentoEx.Model
         }
     }
 
-    class BrowserEnvCheck
+    static class EnvCheck
     {
-        const string keyPath = @"SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\chrome.exe";
-
-        static public bool IsChromeInstalled()
+        public static bool IsChromeInstalled()
         {
-            RegistryKey regkey = Registry.LocalMachine.OpenSubKey(keyPath, false);
-
-            return (regkey != null);
+            RegistryKey regkey = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\chrome.exe");
+            return regkey != null;
+        }
+        /// <summary>
+        /// Checks if Chromium version of Edge browser is installed.
+        /// </summary>
+        /// <returns></returns>
+        public static bool IsMsEdgeInstalled()
+        {
+            return File.Exists(@"C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe");
         }
 
-        static public bool IsVpnConnected()
+        public static bool IsVpnConnected()
         {
             if (NetworkInterface.GetIsNetworkAvailable())
             {
