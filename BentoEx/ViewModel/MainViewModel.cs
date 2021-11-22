@@ -225,11 +225,17 @@ namespace BentoEx.ViewModel
             if (CancelIfDuplicateOrder())
                 return;
 
-            var selenium = new BrowserAutomation(Pass.CompanyCode, Pass.UserId, Pass.Password);
-
-            await Update(selenium.OrderBentoes(Bentoes.Where(b => b.ToBeOrdered)));
-
-            await Update(LoadMenu(selectedDay));
+            try
+            {
+                var selenium = new BrowserAutomation(Pass.CompanyCode, Pass.UserId, Pass.Password);
+                await Update(selenium.OrderBentoes(Bentoes.Where(b => b.ToBeOrdered)));
+                await Update(LoadMenu(selectedDay));
+            }
+            catch (InvalidOperationException ex)
+            {
+                MessageBox.Show(ex.Message, "BentoEx - Browser automation failed");
+                return;
+            }
         }
         private bool CanSubmitOrderExecute()
         {

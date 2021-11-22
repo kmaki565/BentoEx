@@ -3,11 +3,15 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net.NetworkInformation;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using WebDriverManager;
+using WebDriverManager.DriverConfigs.Impl;
+using WebDriverManager.Helpers;
 
 namespace BentoEx.Model
 {
@@ -19,10 +23,18 @@ namespace BentoEx.Model
         readonly string userId;
         readonly string password;
 
+        /// <summary>
+        /// Initializes browser automation. 
+        /// Throws exception if WebDriver failed to initialize (e.g., version mismatched to the installed browser).
+        /// </summary>
+        /// <param name="company"></param>
+        /// <param name="id"></param>
+        /// <param name="pw"></param>
         public BrowserAutomation(string company, string id, string pw)
         {
             // I use Chrome
-            webDriver = new ChromeDriver();
+            string webDriverPath = new DriverManager().SetUpDriver(new ChromeConfig(), VersionResolveStrategy.MatchingBrowser);
+            webDriver = new ChromeDriver(Path.GetDirectoryName(webDriverPath));
 
             companyCode = company;
             userId = id;
