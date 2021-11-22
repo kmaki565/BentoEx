@@ -99,13 +99,13 @@ namespace BentoEx.ViewModel
 
         public void OnLoaded()
         {
-            NeedBrowserInstall = !BrowserEnvCheck.IsChromeInstalled();
-            var task = Update(LoadMenu(selectedDay));
+            NeedBrowserInstall = !EnvCheck.IsMsEdgeInstalled() && !EnvCheck.IsChromeInstalled();
+            _ = Update(LoadMenu(selectedDay));
         }
 
         private async Task LoadMenu(DateTime date)
         {
-            NeedKillVpn = requireVpnOff && BrowserEnvCheck.IsVpnConnected();
+            NeedKillVpn = requireVpnOff && EnvCheck.IsVpnConnected();
 
             if (!IsLoggedIn)
             {
